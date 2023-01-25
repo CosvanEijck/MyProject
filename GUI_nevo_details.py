@@ -24,18 +24,19 @@ class MyGUI:
         for item in self.food_names:
             self.listbox.insert(tk.END, item)
 
-    def fill_out(self):
+    def fill_out(self, event=None):
         self.entry.delete(0, tk.END)
         self.entry.insert(0, self.listbox.get(tk.ACTIVE))
 
     def check(self):
         typed = self.entry.get()
-        if typed == "":
-            self.food_names = self.food_names
+        length_of_typed = len(typed)
+        if typed == '':
+            self.food_names = list(self.name_calorie_dictionary.keys())
         else:
             self.food_names = []
             for item in self.food_names:
-                if typed.lower() in item.lower():
+                if typed.lower() in item.lower()[0:length_of_typed]:
                     self.food_names.append(item)
         mg.update()
 
@@ -53,8 +54,8 @@ class MyGUI:
         self.listbox.config(highlightbackground="grey30", highlightthickness=2)
         self.listbox.pack()
         mg.update()
-        self.listbox.bind("<<ListboxSelect>>", mg.fill_out())
-        self.entry.bind("<KeyRelease>", mg.check())
+        self.listbox.bind("<<ListboxSelect>>", self.fill_out())
+        # self.entry.bind("<KeyRelease>", mg.check())
         self.root.mainloop()
 
 
