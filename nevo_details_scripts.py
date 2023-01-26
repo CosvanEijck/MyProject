@@ -21,11 +21,12 @@ class CSV:
                 self.filtered_list.append(item)
         return self.filtered_list
 
-    def create_dictionary(self, value_label, key_label, key_label2):
+    def create_dictionary(self, value_label, key_label):
         for item in self.filtered_list:
             value = item[self.data_list[0].index(value_label)]
-            key = str(item[self.data_list[0].index(key_label)] + "/" + item[self.data_list[0].index(key_label2)])
-            self.dictionary[key] = int(value)
+            if "raw" not in str(item[self.data_list[0].index(key_label)]):
+                key = str(item[self.data_list[0].index(key_label)])
+                self.dictionary[key] = int(value)
         return self.dictionary
 
 
@@ -34,5 +35,5 @@ if __name__ == '__main__':
     c.read_csv_file()
     c.filter_csv_list("Eenheid/Unit", "kcal")
     name_calorie_dictionary = c.create_dictionary(
-        "Gehalte/Value", "Voedingsmiddelnaam/Dutch food name", "Engelse naam/Food name")
+        "Gehalte/Value", "Engelse naam/Food name")
     food_names = list(name_calorie_dictionary.keys())
